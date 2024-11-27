@@ -4,6 +4,7 @@ import com.jacksonemmerich.soft_outlet.exceptions.ProductNotFoundException;
 import com.jacksonemmerich.soft_outlet.model.Product;
 import com.jacksonemmerich.soft_outlet.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -29,7 +30,8 @@ public class ProductService implements IProductService {
 
     @Override
     public void deleteProductById(Long id) {
-
+        productRepository.findById(id).ifPresentOrElse(productRepository::delete,
+                ()-> {throw new ProductNotFoundException("Product not found");});
     }
 
     @Override
@@ -39,46 +41,51 @@ public class ProductService implements IProductService {
 
     @Override
     public List<Product> getAllProducts() {
-        return List.of();
+        return productRepository.findAll();
+    }
+
+    @Override
+    public List<Product> getAllProductsPageable(Pageable pageable) {
+        return productRepository.findAll(pageable).getContent();
     }
 
     @Override
     public List<Product> getProductsByCategory(String category) {
-        return List.of();
+        return productRepository.findByCategory(category);
     }
 
     @Override
     public List<Product> getProductsByBrand(String brand) {
-        return List.of();
+        return productRepository.findByBrand(brand);
     }
 
     @Override
     public List<Product> getProductsByCategoryAndBrand(String category, String brand) {
-        return List.of();
+        return productRepository.findByCategoryNameAndBrand(category, brand);
     }
 
     @Override
     public List<Product> getProductsByName(String name) {
-        return List.of();
+        return productRepository.findyByName(name);
     }
 
     @Override
     public List<Product> getProductsByPriceRange(BigDecimal start, BigDecimal end) {
-        return List.of();
+        return productRepository.findByProductPriceBetween(start, end);
     }
 
     @Override
-    public List<Product> getProductsByBrandAndName(String name, String brand) {
-        return List.of();
+    public List<Product> getProductsByBrandAndName(String brand, String name) {
+        return productRepository.findByBrandAndName(brand,name);
     }
 
     @Override
-    public List<Product> getProductsByCategoryAndName(String name, String category) {
-        return List.of();
+    public List<Product> getProductsByCategoryAndName(String category, String name) {
+        return productRepository.findByCategoryAndName(category, name);
     }
 
     @Override
-    public Long countProductsByBrandAndName(String name, String brand) {
-        return 0L;
+    public Long countProductsByBrandAndName(String brand, String name) {
+        return productRepository.countByBrandAndName(brand, name);
     }
 }

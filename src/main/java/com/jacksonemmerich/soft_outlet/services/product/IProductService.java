@@ -1,6 +1,7 @@
 package com.jacksonemmerich.soft_outlet.services.product;
 
 import com.jacksonemmerich.soft_outlet.model.Product;
+import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -11,6 +12,10 @@ public interface IProductService {
     void deleteProductById(Long id);
     void updateProduct(Product product, Long productId);
     List<Product> getAllProducts();
+
+
+    List<Product> getAllProductsPageable(Pageable pageable);
+
     List<Product> getProductsByCategory(String category);
     List<Product> getProductsByBrand(String brand);
     List<Product> getProductsByCategoryAndBrand(String category, String brand);
@@ -28,8 +33,6 @@ public interface IProductService {
     List<Product> getProductsByPriceRangeAndBrandAndName(String name, String brand, BigDecimal start, BigDecimal end);
     List<Product> getProductsByPriceRangeAndCategoryAndName(String name, String category, BigDecimal start, BigDecimal end);
     List<Product> getProductsByPriceRangeAndBrandAndCategoryAndName(String name, String category, String brand, BigDecimal start, BigDecimal end);*/
-
-
 
 
 }
