@@ -1,8 +1,10 @@
 package com.jacksonemmerich.soft_outlet.services.product;
 
 import com.jacksonemmerich.soft_outlet.exceptions.ProductNotFoundException;
+import com.jacksonemmerich.soft_outlet.model.Category;
 import com.jacksonemmerich.soft_outlet.model.Product;
 import com.jacksonemmerich.soft_outlet.repository.ProductRepository;
+import com.jacksonemmerich.soft_outlet.request.AddProductRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,11 +17,25 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductService implements IProductService {
 
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
     @Override
-    public Product addProduct(Product product) {
-        return null;
+    public Product addProduct(AddProductRequest product) {
+        //check if category exists in db
+        Category category =
+
+    }
+
+    private Product createProduct(AddProductRequest request, Category category) {
+        return new Product(
+                request.getName(),
+                request.getBrand(),
+                request.getPrice(),
+                request.getInventory(),
+                request.getDescription(),
+                category
+
+        );
     }
 
     @Override

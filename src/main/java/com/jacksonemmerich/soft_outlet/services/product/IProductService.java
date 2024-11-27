@@ -1,13 +1,14 @@
 package com.jacksonemmerich.soft_outlet.services.product;
 
 import com.jacksonemmerich.soft_outlet.model.Product;
+import com.jacksonemmerich.soft_outlet.request.AddProductRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 public interface IProductService {
-    Product addProduct(Product product);
+    Product addProduct(AddProductRequest product);
     Product getProductById(Long id);
     void deleteProductById(Long id);
     void updateProduct(Product product, Long productId);
