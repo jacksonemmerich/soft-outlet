@@ -1,5 +1,6 @@
 package com.jacksonemmerich.soft_outlet.services.category;
 
+import com.jacksonemmerich.soft_outlet.exceptions.AlreadyExistsException;
 import com.jacksonemmerich.soft_outlet.exceptions.ResourceNotFoundException;
 import com.jacksonemmerich.soft_outlet.model.Category;
 import com.jacksonemmerich.soft_outlet.repository.CategoryRepository;
@@ -33,7 +34,9 @@ public class CategoryService implements ICategoryService{
 
     @Override
     public Category addCategory(Category category) {
-        return null;
+        return Optional.of(category).filter(c -> !categoryRepository.existsByName(c.getName()))
+                .map(categoryRepository::save).orElseThrow(() -> new AlreadyExistsException("Category already exists"));
+
     }
 
     @Override
