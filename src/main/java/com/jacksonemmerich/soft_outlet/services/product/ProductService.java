@@ -91,7 +91,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<Product> getProductsByCategory(String category) {
+    public List<Product> getProductsByCategory(Category category) {
         return productRepository.findByCategory(category);
     }
 
@@ -107,13 +107,9 @@ public class ProductService implements IProductService {
 
     @Override
     public List<Product> getProductsByName(String name) {
-        return productRepository.findyByName(name);
+        return productRepository.findByName(name);
     }
 
-    @Override
-    public List<Product> getProductsByPriceRange(BigDecimal start, BigDecimal end) {
-        return productRepository.findByProductPriceBetween(start, end);
-    }
 
     @Override
     public List<Product> getProductsByBrandAndName(String brand, String name) {
@@ -121,7 +117,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<Product> getProductsByCategoryAndName(String category, String name) {
+    public List<Product> getProductsByCategoryAndName(Category category, String name) {
         return productRepository.findByCategoryAndName(category, name);
     }
 

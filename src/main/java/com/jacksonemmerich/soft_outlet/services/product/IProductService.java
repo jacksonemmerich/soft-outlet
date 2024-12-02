@@ -1,5 +1,6 @@
 package com.jacksonemmerich.soft_outlet.services.product;
 
+import com.jacksonemmerich.soft_outlet.model.Category;
 import com.jacksonemmerich.soft_outlet.model.Product;
 import com.jacksonemmerich.soft_outlet.request.AddProductRequest;
 import com.jacksonemmerich.soft_outlet.request.ProductUpdateRequest;
@@ -18,13 +19,13 @@ public interface IProductService {
 
     List<Product> getAllProductsPageable(Pageable pageable);
 
-    List<Product> getProductsByCategory(String category);
+    List<Product> getProductsByCategory(Category category);
     List<Product> getProductsByBrand(String brand);
     List<Product> getProductsByCategoryAndBrand(String category, String brand);
     List<Product> getProductsByName(String name);
-    List<Product> getProductsByPriceRange(BigDecimal start, BigDecimal end);
+
     List<Product> getProductsByBrandAndName(String name, String brand);
-    List<Product> getProductsByCategoryAndName(String name, String category);
+    List<Product> getProductsByCategoryAndName( Category category, String name);
     Long countProductsByBrandAndName(String name, String brand);
 
 
