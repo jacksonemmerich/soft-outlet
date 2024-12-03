@@ -1,6 +1,7 @@
 package com.jacksonemmerich.soft_outlet.controllers;
 
 
+
 import com.jacksonemmerich.soft_outlet.exceptions.AlreadyExistsException;
 import com.jacksonemmerich.soft_outlet.exceptions.ResourceNotFoundException;
 import com.jacksonemmerich.soft_outlet.model.Category;
@@ -26,7 +27,7 @@ public class CategoryController {
     public ResponseEntity<ApiResponse> getAllCategories() {
         try {
             List<Category> categories = categoryService.getAllCategories();
-            return ResponseEntity.ok(new ApiResponse("Categories fetched successfully", categories));
+            return ResponseEntity.ok(new ApiResponse("Categories found successfully", categories));
         } catch (Exception e) {
             return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse("Failed to fetch categories", e.getMessage()));
         }

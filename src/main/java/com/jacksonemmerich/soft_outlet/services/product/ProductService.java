@@ -1,5 +1,6 @@
 package com.jacksonemmerich.soft_outlet.services.product;
 
+import com.jacksonemmerich.soft_outlet.dto.ProductDto;
 import com.jacksonemmerich.soft_outlet.exceptions.ProductNotFoundException;
 import com.jacksonemmerich.soft_outlet.model.Category;
 import com.jacksonemmerich.soft_outlet.model.Product;
@@ -86,14 +87,10 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<Product> getAllProductsPageable(Pageable pageable) {
-        return productRepository.findAll(pageable).getContent();
+    public List<Product> getProductsByCategory(String category) {
+        return List.of();
     }
 
-    @Override
-    public List<Product> getProductsByCategory(Category category) {
-        return productRepository.findByCategory(category);
-    }
 
     @Override
     public List<Product> getProductsByBrand(String brand) {
@@ -116,13 +113,19 @@ public class ProductService implements IProductService {
         return productRepository.findByBrandAndName(brand,name);
     }
 
-    @Override
-    public List<Product> getProductsByCategoryAndName(Category category, String name) {
-        return productRepository.findByCategoryAndName(category, name);
-    }
 
     @Override
     public Long countProductsByBrandAndName(String brand, String name) {
         return productRepository.countByBrandAndName(brand, name);
+    }
+
+    @Override
+    public List<ProductDto> getConvertedProducts(List<Product> products) {
+        return List.of();
+    }
+
+    @Override
+    public ProductDto convertToDto(Product product) {
+        return null;
     }
 }
