@@ -41,6 +41,17 @@ public class ProductController {
         }
     }
 
+    /*@PostMapping("/add")
+    public ResponseEntity<ApiResponse> addProduct(@RequestBody AddProductRequest product) {
+        try {
+            Product theProduct = productService.addProduct(product);
+            ProductDto productDto = productService.convertToDto(theProduct);
+            return ResponseEntity.ok(new ApiResponse("Add product success!", productDto));
+        } catch (Exception e) {
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), null));
+        }
+    }*/
+
     @PostMapping("/add")
     public ResponseEntity<ApiResponse> addProduct(@RequestBody AddProductRequest product) {
         try {

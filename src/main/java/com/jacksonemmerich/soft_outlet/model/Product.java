@@ -12,6 +12,9 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
+@Table(name = "Product", indexes = {
+        @Index(name = "idx_product_id", columnList = "id")
+})
 public class Product {
 
     @Id

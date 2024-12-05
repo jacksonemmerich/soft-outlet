@@ -1,18 +1,20 @@
 package com.jacksonemmerich.soft_outlet.services.product;
 
+import com.jacksonemmerich.soft_outlet.dto.ImageDto;
 import com.jacksonemmerich.soft_outlet.dto.ProductDto;
 import com.jacksonemmerich.soft_outlet.exceptions.ProductNotFoundException;
 import com.jacksonemmerich.soft_outlet.model.Category;
+import com.jacksonemmerich.soft_outlet.model.Image;
 import com.jacksonemmerich.soft_outlet.model.Product;
 import com.jacksonemmerich.soft_outlet.repository.CategoryRepository;
+import com.jacksonemmerich.soft_outlet.repository.ImageRepository;
 import com.jacksonemmerich.soft_outlet.repository.ProductRepository;
 import com.jacksonemmerich.soft_outlet.request.AddProductRequest;
 import com.jacksonemmerich.soft_outlet.request.ProductUpdateRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,10 +25,16 @@ public class ProductService implements IProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final ImageRepository imageRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public Product addProduct(AddProductRequest request) {
-        //check if category exists in db
+        // check if the category is found in the DB
+        // If Yes, set it as the new product category
+        // If No, the save it as a new category
+        // The set as the new product category.
+
         Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
                 .orElseGet(() -> {
                     Category newCategory = new Category(request.getCategory().getName());
@@ -121,11 +129,17 @@ public class ProductService implements IProductService {
 
     @Override
     public List<ProductDto> getConvertedProducts(List<Product> products) {
-        return List.of();
+        return products.stream().map(this::convertToDto).toList();
     }
 
     @Override
     public ProductDto convertToDto(Product product) {
-        return null;
+        ProductDto productDto = modelMapper.map(product, ProductDto.class);
+        List<Image> images = imageRepository.findByProductId(product.getId());
+        List<ImageDto> imageDtos = images.stream()
+                .map(image -> modelMapper.map(image, ImageDto.class))
+                .toList();
+        productDto.setImages(imageDtos);
+        return productDto;
     }
 }
