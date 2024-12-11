@@ -14,6 +14,7 @@ import com.jacksonemmerich.soft_outlet.request.ProductUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -89,10 +90,12 @@ public class ProductService implements IProductService {
         return existingProduct;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
+
 
     @Override
     public List<Product> getProductsByCategory(String category) {
@@ -104,6 +107,7 @@ public class ProductService implements IProductService {
     public List<Product> getProductsByBrand(String brand) {
         return productRepository.findByBrand(brand);
     }
+
 
     @Override
     public List<Product> getProductsByCategoryAndBrand(String category, String brand) {
@@ -131,6 +135,7 @@ public class ProductService implements IProductService {
     public List<ProductDto> getConvertedProducts(List<Product> products) {
         return products.stream().map(this::convertToDto).toList();
     }
+
 
     @Override
     public ProductDto convertToDto(Product product) {
