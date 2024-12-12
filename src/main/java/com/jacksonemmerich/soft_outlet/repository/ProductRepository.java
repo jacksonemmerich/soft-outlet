@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    List<Product> findByCategory(Category category);
+
 
     List<Product> findByBrand(String brand);
 
@@ -19,4 +19,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByBrandAndName(String name, String brand);
 
     Long countByBrandAndName(String brand, String name);
+
+    List<Product> findByCategoryName(String category);
 }
