@@ -46,10 +46,6 @@ public class ImageController {
 
     }
 
-    /*@PostMapping("/upload")
-    public ResponseEntity<ApiResponse> saveImages(@RequestParam List<MultipartFile> files, @RequestParam Long productId) {
-        return ResponseEntity.ok(new ApiResponse("Recebido com sucesso!", null));
-    }*/
 
     @GetMapping("/image/download/{imageId}")
     public ResponseEntity<Resource> downloadImage(@PathVariable Long imageId) throws SQLException {
