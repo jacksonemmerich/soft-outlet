@@ -8,6 +8,8 @@ import com.jacksonemmerich.soft_outlet.repository.ImageRepository;
 import com.jacksonemmerich.soft_outlet.services.product.IProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialBlob;
@@ -19,6 +21,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ImageService implements IImageService {
+    private static final Logger log = LoggerFactory.getLogger(ImageService.class);
     private final ImageRepository imageRepository;
     private final IProductService productService;
 
@@ -44,6 +47,7 @@ public class ImageService implements IImageService {
         List<ImageDto> savedImageDto = new ArrayList<>();
         for (MultipartFile file : files) {
             try {
+                log.info("Tentando salvar imagem...");
                 Image image = new Image();
                 image.setFileName(file.getOriginalFilename());
                 image.setFileType(file.getContentType());
@@ -57,6 +61,7 @@ public class ImageService implements IImageService {
 
                 savedImage.setDownloadUrl(buildDownloadUrl+savedImage.getId());
                 imageRepository.save(savedImage);
+                log.info("Imagem salva com sucesso! ID: {}", savedImage.getId());
 
                 ImageDto imageDto = new ImageDto();
                 imageDto.setId(savedImage.getId());

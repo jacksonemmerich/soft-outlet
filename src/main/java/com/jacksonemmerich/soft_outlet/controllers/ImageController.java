@@ -5,7 +5,11 @@ import com.jacksonemmerich.soft_outlet.exceptions.ResourceNotFoundException;
 import com.jacksonemmerich.soft_outlet.model.Image;
 import com.jacksonemmerich.soft_outlet.response.ApiResponse;
 import com.jacksonemmerich.soft_outlet.services.image.IImageService;
+import com.jacksonemmerich.soft_outlet.services.image.ImageService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -25,19 +29,27 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @RestController
 @RequestMapping("${api.prefix}/images")
 public class ImageController {
+    private static final Logger log = LoggerFactory.getLogger(ImageController.class);
     private final IImageService imageService;
 
 
     @PostMapping("/upload")
-    public ResponseEntity<ApiResponse> saveImages(@RequestParam List<MultipartFile> files, @RequestParam Long productId) {
+    public ResponseEntity<ApiResponse> saveImages(@RequestParam(name = "files") List<MultipartFile> files,@RequestParam(name = "productId") Long productId) {
         try {
             List<ImageDto> imageDtos = imageService.saveImages(productId, files);
+            log.info("Received files: {}", files.size());
+            log.info("Product ID: {}", productId);
             return ResponseEntity.ok(new ApiResponse("Upload success!", imageDtos));
         } catch (Exception e) {
             return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse("Upload failed!", e.getMessage()));
         }
 
     }
+
+    /*@PostMapping("/upload")
+    public ResponseEntity<ApiResponse> saveImages(@RequestParam List<MultipartFile> files, @RequestParam Long productId) {
+        return ResponseEntity.ok(new ApiResponse("Recebido com sucesso!", null));
+    }*/
 
     @GetMapping("/image/download/{imageId}")
     public ResponseEntity<Resource> downloadImage(@PathVariable Long imageId) throws SQLException {
