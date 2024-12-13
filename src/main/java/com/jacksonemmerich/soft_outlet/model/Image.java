@@ -1,5 +1,4 @@
 package com.jacksonemmerich.soft_outlet.model;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

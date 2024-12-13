@@ -9,3 +9,4 @@ public class ImageDto {
     private String downloadUrl;
 
 }
+

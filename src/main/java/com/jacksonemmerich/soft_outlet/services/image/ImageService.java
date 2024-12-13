@@ -19,9 +19,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ImageService implements IImageService {
-
     private final ImageRepository imageRepository;
     private final IProductService productService;
+
 
     @Override
     public Image getImageById(Long id) {
@@ -31,8 +31,10 @@ public class ImageService implements IImageService {
 
     @Override
     public void deleteImageById(Long id) {
-        imageRepository.findById(id).ifPresentOrElse(imageRepository::delete,
-                () -> {throw new ResourceNotFoundException("Image not found");});
+        imageRepository.findById(id).ifPresentOrElse(imageRepository::delete, () -> {
+            throw new ResourceNotFoundException("No image found with id: " + id);
+        });
+
     }
 
     @Override
@@ -70,11 +72,10 @@ public class ImageService implements IImageService {
     }
 
 
+
     @Override
     public void updateImage(MultipartFile file, Long imageId) {
-
         Image image = getImageById(imageId);
-
         try {
             image.setFileName(file.getOriginalFilename());
             image.setFileType(file.getContentType());
