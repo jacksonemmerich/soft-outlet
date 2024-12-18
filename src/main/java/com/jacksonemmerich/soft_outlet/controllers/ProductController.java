@@ -41,16 +41,6 @@ public class ProductController {
         }
     }
 
-    /*@PostMapping("/add")
-    public ResponseEntity<ApiResponse> addProduct(@RequestBody AddProductRequest product) {
-        try {
-            Product theProduct = productService.addProduct(product);
-            ProductDto productDto = productService.convertToDto(theProduct);
-            return ResponseEntity.ok(new ApiResponse("Add product success!", productDto));
-        } catch (Exception e) {
-            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), null));
-        }
-    }*/
 
     @PostMapping("/add")
     public ResponseEntity<ApiResponse> addProduct(@RequestBody AddProductRequest product) {
@@ -88,10 +78,12 @@ public class ProductController {
     public ResponseEntity<ApiResponse> getProductByBrandAndName(@RequestParam String brandName, @RequestParam String productName) {
         try {
             List<Product> products = productService.getProductsByBrandAndName(brandName, productName);
-            if (products.isEmpty()) {
+
+            List<ProductDto> convertedProducts = productService.getConvertedProducts(products);
+
+            if (convertedProducts.isEmpty()) {
                 return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("No products found ", null));
             }
-            List<ProductDto> convertedProducts = productService.getConvertedProducts(products);
             return ResponseEntity.ok(new ApiResponse("success", convertedProducts));
         } catch (Exception e) {
             return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), null));
